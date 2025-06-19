@@ -1,5 +1,3 @@
-'use client';
-export const dynamic = 'force-dynamic';
 // google 登入
 // 別忘記到 auth 頁面新增服務提供商
 
@@ -7,6 +5,7 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from "react";
 import { getFirebaseApp } from "../../firebaseClient";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
+export const dynamic = 'force-dynamic';
 
 export default function FBAuth() {
   const [user, setUser] = useState(null);
