@@ -4,29 +4,27 @@ export const dynamic = 'force-dynamic';
 // 別忘記到 auth 頁面新增服務提供商
 
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getFirebaseApp } from "../../firebaseClient";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA0DD57-8TtueLBwyzttYsvJnxAJZDoGXM",
-  authDomain: "web-f1925.firebaseapp.com",
-  databaseURL: "https://web-f1925-default-rtdb.firebaseio.com",
-  projectId: "web-f1925",
-  storageBucket: "web-f1925.firebasestorage.app",
-  messagingSenderId: "600796513613",
-  appId: "1:600796513613:web:e8f15a226c73325b9ce304",
-  measurementId: "G-W4YNQ0LK2Q"
-};
-
 export default function FBAuth() {
   const [user, setUser] = useState(null);
-  const app = getFirebaseApp();
-  if (!app) return null;
-  const { auth, provider } = app;
-  auth.useDeviceLanguage();
+  const [auth, setAuth] = useState(null);
+  const [provider, setProvider] = useState(null);
+
+  useEffect(() => {
+    const app = getFirebaseApp();
+    if (app) {
+      const authInstance = getAuth();
+      authInstance.useDeviceLanguage();
+      setAuth(authInstance);
+      setProvider(new GoogleAuthProvider());
+    }
+  }, []);
 
   const signIn = () => {
+    if (!auth || !provider) return;
     signInWithPopup(auth, provider).then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
@@ -41,7 +39,7 @@ export default function FBAuth() {
     <div className="w-full h-screen">
       <h1>FB Auth</h1>
       <h3>User: {user?.displayName}</h3>
-      <button onClick={signIn}>Sign In</button>
+      <button onClick={signIn} disabled={!auth || !provider}>Sign In</button>
     </div>
   );
 }
