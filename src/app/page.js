@@ -9,7 +9,7 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { Vector3 } from "three";
 import gsap from 'gsap';
 import Swal from 'sweetalert2'
-import { initializeApp } from "firebase/app";
+import { getFirebaseApp } from "../firebaseClient";
 import { getDatabase, ref, onValue, push, get, set, update } from "firebase/database";
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
 
@@ -28,10 +28,10 @@ const firebaseConfig = {
 };
 
 
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-const auth = getAuth();
-const provider = new GoogleAuthProvider();
+const app = getFirebaseApp();
+const database = app ? getDatabase(app) : null;
+const auth = app ? getAuth() : null;
+const provider = app ? new GoogleAuthProvider() : null;
 
 // LoginPage Component
 function LoginPage({onLogin}) {

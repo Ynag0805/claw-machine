@@ -7,7 +7,7 @@
 
 "use client"
 
-import { initializeApp } from "firebase/app";
+import { getFirebaseApp } from "../../firebaseClient";
 //Firebase - RealtimeDatabase
 import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useEffect } from "react";
@@ -32,7 +32,7 @@ export default function HomeFB0617() {
   };
   
   // 初始化 Firebase 應用
-  const app = initializeApp(firebaseConfig);
+  const app = getFirebaseApp();
   // 初始化 Realtime Database
   const database = getDatabase(app);
   // 設定資料庫根目錄參考

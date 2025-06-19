@@ -2,7 +2,7 @@
 
 "use client"
 
-import { initializeApp } from "firebase/app";
+import { getFirebaseApp } from "../../firebaseClient";
 import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useState, useEffect } from "react";
 
@@ -19,7 +19,7 @@ export default function FB() {
     measurementId: "G-W4YNQ0LK2Q"
   };
 
-  const app = initializeApp(firebaseConfig);
+  const app = getFirebaseApp();
   const database = getDatabase(app);
 
   const [data, setData] = useState([]);

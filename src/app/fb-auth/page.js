@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 "use client"
 import { useState } from "react";
-import { initializeApp, getApps } from "firebase/app";
+import { getFirebaseApp } from "../../firebaseClient";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 
 const firebaseConfig = {
@@ -19,20 +19,11 @@ const firebaseConfig = {
   measurementId: "G-W4YNQ0LK2Q"
 };
 
-function getFirebase() {
-  if (typeof window === 'undefined') return null;
-  if (!getApps().length) initializeApp(firebaseConfig, "fb-auth");
-  return {
-    auth: getAuth(),
-    provider: new GoogleAuthProvider(),
-  };
-}
-
 export default function FBAuth() {
   const [user, setUser] = useState(null);
-  const fb = getFirebase();
-  if (!fb) return null;
-  const { auth, provider } = fb;
+  const app = getFirebaseApp();
+  if (!app) return null;
+  const { auth, provider } = app;
   auth.useDeviceLanguage();
 
   const signIn = () => {
